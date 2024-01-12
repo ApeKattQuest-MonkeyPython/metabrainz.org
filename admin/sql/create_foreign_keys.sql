@@ -6,6 +6,11 @@ ALTER TABLE token
   ON UPDATE CASCADE ON DELETE SET NULL;
 
 ALTER TABLE supporter
+  ADD CONSTRAINT supporter_user_id_fkey FOREIGN KEY (user_id)
+  REFERENCES "user" (id) MATCH SIMPLE
+  ON UPDATE CASCADE ON DELETE SET NULL;
+
+ALTER TABLE supporter
   ADD CONSTRAINT supporter_tier_id_fkey FOREIGN KEY (tier_id)
   REFERENCES tier (id) MATCH SIMPLE
   ON UPDATE CASCADE ON DELETE SET NULL;
@@ -34,30 +39,5 @@ ALTER TABLE access_log
   ADD CONSTRAINT access_log_token_fkey FOREIGN KEY (token)
   REFERENCES token (value) MATCH SIMPLE
   ON UPDATE NO ACTION ON DELETE NO ACTION;
-
-ALTER TABLE oauth_client
-  ADD CONSTRAINT oauth_client_supporter_fkey FOREIGN KEY (user_id)
-  REFERENCES supporter (id) MATCH SIMPLE
-  ON UPDATE CASCADE ON DELETE CASCADE;
-
-ALTER TABLE oauth_grant
-  ADD CONSTRAINT oauth_grant_oauth_client_fkey FOREIGN KEY (client_id)
-  REFERENCES oauth_client (client_id) MATCH SIMPLE
-  ON UPDATE CASCADE ON DELETE CASCADE;
-
-ALTER TABLE oauth_grant
-  ADD CONSTRAINT oauth_grant_supporter_fkey FOREIGN KEY (user_id)
-  REFERENCES supporter (id) MATCH SIMPLE
-  ON UPDATE CASCADE ON DELETE CASCADE;
-
-ALTER TABLE oauth_token
-  ADD CONSTRAINT oauth_token_oauth_client_fkey FOREIGN KEY (client_id)
-  REFERENCES oauth_client (client_id) MATCH SIMPLE
-  ON UPDATE CASCADE ON DELETE CASCADE;
-
-ALTER TABLE oauth_token
-  ADD CONSTRAINT oauth_token_supporter_fkey FOREIGN KEY (user_id)
-  REFERENCES supporter (id) MATCH SIMPLE
-  ON UPDATE CASCADE ON DELETE CASCADE;
 
 COMMIT;

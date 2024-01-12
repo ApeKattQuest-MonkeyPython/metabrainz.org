@@ -4,6 +4,7 @@ email_validator==1.0.5
 Flask==2.3.2
 Flask-Admin==1.6.1
 Flask-Babel==3.1.0
+Flask-Bcrypt==1.0.1
 Flask-DebugToolbar@git+https://github.com/amCap1712/flask-debugtoolbar.git@f42bb238cd3fbc79c51b93c341164c2be820025e
 Flask-Login==0.6.3
 Flask-SQLAlchemy==3.0.3
@@ -32,9 +33,9 @@ reportlab==3.6.13
 requests==2.31.0
 sentry-sdk[flask]==1.29.2
 six==1.16.0
-SQLAlchemy==1.4.18
-sqlalchemy-dst>=1.0.1
 stripe==2.60.0
+SQLAlchemy==1.4.41
+sqlalchemy-dst>=1.0.1
 urllib3==2.0.7
 Werkzeug==3.0.1
 WTForms==2.3.3

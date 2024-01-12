@@ -1,10 +1,11 @@
 from flask_wtf import FlaskForm, RecaptchaField
 from flask_babel import gettext
 from wtforms import BooleanField, TextAreaField, validators
-from wtforms.fields.core import StringField, SelectMultipleField
-from wtforms.fields.html5 import EmailField, URLField, DecimalField
+from wtforms.fields import StringField, SelectMultipleField, EmailField, URLField, DecimalField
 from wtforms.validators import DataRequired, Length
 from wtforms.widgets import ListWidget, CheckboxInput
+
+from metabrainz.user.forms import UserSignupForm
 
 
 class DatasetsField(SelectMultipleField):
@@ -33,7 +34,7 @@ class DatasetsField(SelectMultipleField):
         self.data = [datasets_dict.get(x) for x in self.data]
 
 
-class SupporterSignUpForm(FlaskForm):
+class SupporterSignUpForm(UserSignupForm):
     """Base sign up form for new supporters.
 
     Contains common fields required from both commercial and non-commercial
@@ -51,17 +52,13 @@ class SupporterSignUpForm(FlaskForm):
     agreement = BooleanField(validators=[DataRequired(message=gettext("You need to accept the agreement!"))])
     recaptcha = RecaptchaField()
 
-    def __init__(self, default_email=None, **kwargs):
-        kwargs.setdefault('contact_email', default_email)
-        FlaskForm.__init__(self, **kwargs)
-
 
 class NonCommercialSignUpForm(SupporterSignUpForm):
     """Sign up form for non-commercial supporters."""
     datasets = DatasetsField()
 
-    def __init__(self, available_datasets, default_email=None, **kwargs):
-        super().__init__(default_email, **kwargs)
+    def __init__(self, available_datasets, **kwargs):
+        super().__init__(**kwargs)
         self.datasets.choices = available_datasets
         self.descriptions = {d.id: d.description for d in available_datasets}
 

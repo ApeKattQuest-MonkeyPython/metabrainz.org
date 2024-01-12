@@ -12,16 +12,22 @@
   <div class="alert {{ alert_class }}">{{ message }}</div>
 {% endmacro %}
 
-{% macro oauth_scope_desc(scope) %}
-  {###
+{% macro display_form_errors(form) %}
+  {% for name, errors in form.errors.items() %}
+    {% for error in errors %}
+      {% if name is none %}
+        {{ print_message(error, "error") }}
+      {% else %}
+        {{ print_message(form[name].label ~ ": " ~ error, "error") }}
+      {% endif %}
+    {% endfor %}
+  {% endfor %}
+{% endmacro %}
 
-  Define scope description here like this:
-
-  {% if scope == "review" %}
-    <abbr title="Create and modify your reviews.">{{ _('Reviews') }}</abbr>
-  {% elif scope == "profile" %}
-    <abbr title="Access your profile">{{ _('Profile') }}</abbr>
-  {% endif %}
-
-  ###}
+{% macro oauth_scope_desc(scopes) %}
+  <ul>
+    {% for scope in scopes %}
+      <li>{{ scope.name }}: {{ scope.description }}</li>
+    {% endfor %}
+  </ul>
 {% endmacro %}
